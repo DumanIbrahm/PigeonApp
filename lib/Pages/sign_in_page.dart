@@ -4,7 +4,9 @@ import 'package:pigeon_app/Widgets/social_button.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class SignInPage extends StatelessWidget {
-  const SignInPage({super.key});
+  final Function(User) onSignIn;
+
+  const SignInPage({Key? key, required this.onSignIn}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +83,6 @@ class SignInPage extends StatelessWidget {
     UserCredential userCredential =
         await FirebaseAuth.instance.signInAnonymously();
     User user = userCredential.user!;
-
-    print('Signed in anonymously with User ID: ${user.uid}');
+    onSignIn(user);
   }
 }
