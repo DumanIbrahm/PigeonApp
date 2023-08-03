@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pigeon_app/Widgets/social_button.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class SignInPage extends StatelessWidget {
   const SignInPage({super.key});
@@ -66,12 +68,20 @@ class SignInPage extends StatelessWidget {
                   color: Colors.white,
                   size: 32,
                 ),
-                onPressed: () {},
+                onPressed: anonymousSignIn,
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void anonymousSignIn() async {
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInAnonymously();
+    User user = userCredential.user!;
+
+    print('Signed in anonymously with User ID: ${user.uid}');
   }
 }
