@@ -1,13 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pigeon_app/Widgets/social_button.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:pigeon_app/viewModels/user_view_model.dart';
+import 'package:provider/provider.dart';
 
 class SignInPage extends StatelessWidget {
-  final Function(User) onSignIn;
-
-  const SignInPage({Key? key, required this.onSignIn}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -70,7 +66,7 @@ class SignInPage extends StatelessWidget {
                   color: Colors.white,
                   size: 32,
                 ),
-                onPressed: anonymousSignIn,
+                onPressed: (() => anonymousSignIn(context)),
               ),
             ],
           ),
@@ -79,10 +75,8 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  void anonymousSignIn() async {
-    UserCredential userCredential =
-        await FirebaseAuth.instance.signInAnonymously();
-    User user = userCredential.user!;
-    onSignIn(user);
+  void anonymousSignIn(BuildContext context) async {
+    final userModel = Provider.of<UserViewModel>(context);
+    await userModel.signInAnonymously();
   }
 }

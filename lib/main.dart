@@ -1,8 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pigeon_app/Pages/landing_page.dart';
+import 'package:pigeon_app/locator.dart';
+import 'package:pigeon_app/viewModels/user_view_model.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
+  setUpLocator();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -20,7 +24,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const LandingPage(),
+      home: ChangeNotifierProvider(
+          create: (context) => UserViewModel(), child: LandingPage()),
     );
   }
 }

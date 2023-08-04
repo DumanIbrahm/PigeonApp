@@ -1,10 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pigeon_app/models/user_model.dart';
+import 'package:pigeon_app/viewModels/user_view_model.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
-  final User user;
-  final VoidCallback onSignOut;
-  const HomePage({super.key, required this.user, required this.onSignOut});
+  final UserDT user;
+  const HomePage({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              _signOut();
+              () => _signOut(context);
             },
             icon: const Icon(Icons.exit_to_app),
           ),
@@ -26,8 +27,9 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Future<void> _signOut() async {
-    await FirebaseAuth.instance.signOut();
-    onSignOut();
+  Future<bool> _signOut(BuildContext context) async {
+    final userModel = Provider.of<UserViewModel>(context);
+    bool result = await userModel.signOut();
+    return result;
   }
 }
