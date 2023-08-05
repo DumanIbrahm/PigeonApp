@@ -1,4 +1,4 @@
-class UserDT {
+class MyUser {
   final String uid;
-  UserDT({required this.uid});
+  MyUser({required this.uid});
 }

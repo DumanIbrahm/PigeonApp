@@ -14,7 +14,7 @@ class UserRepository implements AuthBase {
   AppMode appMode = AppMode.release;
 
   @override
-  Future<UserDT> currentUser() async {
+  Future<MyUser?> currentUser() async {
     if (appMode == AppMode.debug) {
       return await fakeAuthenticationService.currentUser();
     } else {
@@ -23,7 +23,7 @@ class UserRepository implements AuthBase {
   }
 
   @override
-  Future<UserDT> signInAnonymously() async {
+  Future<MyUser?> signInAnonymously() async {
     if (appMode == AppMode.debug) {
       return await fakeAuthenticationService.signInAnonymously();
     } else {

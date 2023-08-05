@@ -8,13 +8,11 @@ enum ViewState { idle, busy }
 
 class UserViewModel with ChangeNotifier implements AuthBase {
   //Buradan isteklerimizi repository e yollayacağız.
-
   ViewState state = ViewState.idle;
   UserRepository userRepository = locator<UserRepository>();
-  late UserDT user;
 
-  UserDT get getUser => user;
-
+  MyUser? user;
+  MyUser? get getUser => user;
   ViewState get getState => state;
 
   UserViewModel() {
@@ -27,28 +25,28 @@ class UserViewModel with ChangeNotifier implements AuthBase {
   }
 
   @override
-  Future<UserDT> currentUser() async {
+  Future<MyUser?> currentUser() async {
     try {
       setState = ViewState.busy;
       user = await userRepository.currentUser();
       return user;
     } catch (e) {
       debugPrint("View Modeldeki Current Userda Hata: $e");
-      return null!;
+      return null;
     } finally {
       setState = ViewState.idle;
     }
   }
 
   @override
-  Future<UserDT> signInAnonymously() async {
+  Future<MyUser?> signInAnonymously() async {
     try {
       setState = ViewState.busy;
       user = await userRepository.signInAnonymously();
       return user;
     } catch (e) {
       debugPrint("View Modeldeki Sign In Anonymouslyde Hata: $e");
-      return null!;
+      return null;
     } finally {
       setState = ViewState.idle;
     }
@@ -58,6 +56,7 @@ class UserViewModel with ChangeNotifier implements AuthBase {
   Future<bool> signOut() async {
     try {
       setState = ViewState.busy;
+      user = null;
       return await userRepository.signOut();
     } catch (e) {
       debugPrint("View Modeldeki Sign Outda Hata: $e");

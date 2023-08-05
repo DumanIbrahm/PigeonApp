@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: ChangeNotifierProvider(
-          create: (context) => UserViewModel(), child: LandingPage()),
+          create: (context) => UserViewModel(), child: const LandingPage()),
     );
   }
 }

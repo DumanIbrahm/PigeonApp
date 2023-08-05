@@ -5,16 +5,18 @@ import 'package:pigeon_app/viewModels/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 class LandingPage extends StatelessWidget {
+  const LandingPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final userModel = Provider.of<UserViewModel>(context);
 
     if (userModel.state == ViewState.idle) {
       if (userModel.user == null) {
-        return SignInPage();
+        return const SignInPage();
       } else {
         return HomePage(
-          user: userModel.user,
+          user: userModel.user!,
         );
       }
     } else {

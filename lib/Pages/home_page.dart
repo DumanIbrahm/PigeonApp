@@ -4,7 +4,7 @@ import 'package:pigeon_app/viewModels/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
-  final UserDT user;
+  final MyUser user;
   const HomePage({super.key, required this.user});
 
   @override
@@ -13,12 +13,18 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Pigeon App"),
         actions: [
-          IconButton(
-            onPressed: () {
-              () => _signOut(context);
-            },
-            icon: const Icon(Icons.exit_to_app),
-          ),
+          TextButton(
+              onPressed: (() => _signOut(context)),
+              child: const Text(
+                "Log Out",
+                style: TextStyle(color: Colors.white),
+              ))
+          // IconButton(
+          //   onPressed: () {
+          //     () => _signOut(context);
+          //   },
+          //   icon: const Icon(Icons.exit_to_app),
+          // ),
         ],
       ),
       body: Center(
@@ -28,8 +34,6 @@ class HomePage extends StatelessWidget {
   }
 
   Future<bool> _signOut(BuildContext context) async {
-    final userModel = Provider.of<UserViewModel>(context);
-    bool result = await userModel.signOut();
-    return result;
+    return await Provider.of<UserViewModel>(context, listen: false).signOut();
   }
 }

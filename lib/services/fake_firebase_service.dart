@@ -4,14 +4,14 @@ import 'package:pigeon_app/services/auth_base.dart';
 class FakeAuthenticationService implements AuthBase {
   String userID = "12321321321312";
   @override
-  Future<UserDT> currentUser() async {
-    return await Future.value(UserDT(uid: userID));
+  Future<MyUser> currentUser() async {
+    return await Future.value(MyUser(uid: userID));
   }
 
   @override
-  Future<UserDT> signInAnonymously() async {
+  Future<MyUser> signInAnonymously() async {
     return await Future.delayed(
-        const Duration(seconds: 2), () => UserDT(uid: userID));
+        const Duration(seconds: 2), () => MyUser(uid: userID));
   }
 
   @override

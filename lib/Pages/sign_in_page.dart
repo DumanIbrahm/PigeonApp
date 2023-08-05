@@ -4,6 +4,8 @@ import 'package:pigeon_app/viewModels/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 class SignInPage extends StatelessWidget {
+  const SignInPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -76,7 +78,7 @@ class SignInPage extends StatelessWidget {
   }
 
   void anonymousSignIn(BuildContext context) async {
-    final userModel = Provider.of<UserViewModel>(context);
-    await userModel.signInAnonymously();
+    final user = Provider.of<UserViewModel>(context, listen: false);
+    await user.signInAnonymously();
   }
 }
