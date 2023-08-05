@@ -35,7 +35,7 @@ class SignInPage extends StatelessWidget {
                   width: 30,
                   height: 30,
                 ),
-                onPressed: () {},
+                onPressed: () => _googleSignIn(context),
               ),
               SocialLoginButton(
                 buttonText: "Sign In with Facebook",
@@ -80,5 +80,10 @@ class SignInPage extends StatelessWidget {
   void anonymousSignIn(BuildContext context) async {
     final user = Provider.of<UserViewModel>(context, listen: false);
     await user.signInAnonymously();
+  }
+
+  void _googleSignIn(BuildContext context) async {
+    final user = Provider.of<UserViewModel>(context, listen: false);
+    await user.signInWithGoogle();
   }
 }

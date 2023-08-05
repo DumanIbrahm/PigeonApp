@@ -65,4 +65,18 @@ class UserViewModel with ChangeNotifier implements AuthBase {
       setState = ViewState.idle;
     }
   }
+
+  @override
+  Future<MyUser?> signInWithGoogle() async {
+    try {
+      setState = ViewState.busy;
+      user = await userRepository.signInWithGoogle();
+      return user;
+    } catch (e) {
+      debugPrint("View Modeldeki Sign In Anonymouslyde Hata: $e");
+      return null;
+    } finally {
+      setState = ViewState.idle;
+    }
+  }
 }
