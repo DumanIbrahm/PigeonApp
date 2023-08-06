@@ -3,6 +3,7 @@ import 'package:pigeon_app/models/user_model.dart';
 import 'package:pigeon_app/services/auth_base.dart';
 import 'package:pigeon_app/services/fake_firebase_service.dart';
 import 'package:pigeon_app/services/firebase_auth_service.dart';
+import 'package:pigeon_app/services/firestore_db_service.dart';
 
 enum AppMode { debug, release }
 
@@ -10,6 +11,7 @@ class UserRepository implements AuthBase {
   FirebaseAuthService firebaseAuthService = locator<FirebaseAuthService>();
   FakeAuthenticationService fakeAuthenticationService =
       locator<FakeAuthenticationService>();
+  FirestoreDbService firestoreDbService = locator<FirestoreDbService>();
 
   AppMode appMode = AppMode.release;
 
@@ -45,7 +47,43 @@ class UserRepository implements AuthBase {
     if (appMode == AppMode.debug) {
       return await fakeAuthenticationService.signInWithGoogle();
     } else {
-      return await firebaseAuthService.signInWithGoogle();
+      MyUser? user = await firebaseAuthService.signInWithGoogle();
+      bool result = await firestoreDbService.saveUser(user!);
+      if (result) {
+        return user;
+      } else {
+        return null;
+      }
+    }
+  }
+
+  @override
+  Future<MyUser?> createUserWithEmailAndPassword(
+      String email, String password) async {
+    if (appMode == AppMode.debug) {
+      return await fakeAuthenticationService.createUserWithEmailAndPassword(
+          email, password);
+    } else {
+      MyUser? user = await firebaseAuthService.createUserWithEmailAndPassword(
+          email, password);
+      bool result = await firestoreDbService.saveUser(user!);
+      if (result) {
+        return user;
+      } else {
+        return null;
+      }
+    }
+  }
+
+  @override
+  Future<MyUser?> signInWithEmailAndPassword(
+      String email, String password) async {
+    if (appMode == AppMode.debug) {
+      return await fakeAuthenticationService.signInWithEmailAndPassword(
+          email, password);
+    } else {
+      return await firebaseAuthService.signInWithEmailAndPassword(
+          email, password);
     }
   }
 }

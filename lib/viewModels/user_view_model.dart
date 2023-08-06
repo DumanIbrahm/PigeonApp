@@ -15,6 +15,9 @@ class UserViewModel with ChangeNotifier implements AuthBase {
   MyUser? get getUser => user;
   ViewState get getState => state;
 
+  String emailErrorMesaj = "";
+  String passwordErrorMesaj = "";
+
   UserViewModel() {
     currentUser();
   }
@@ -78,5 +81,61 @@ class UserViewModel with ChangeNotifier implements AuthBase {
     } finally {
       setState = ViewState.idle;
     }
+  }
+
+  @override
+  Future<MyUser?> createUserWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      if (checkEmailAndPassword(email, password)) {
+        setState = ViewState.busy;
+        user = await userRepository.createUserWithEmailAndPassword(
+            email, password);
+        return user;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      debugPrint("View Modeldeki Sign In Anonymouslyde Hata: $e");
+      return null;
+    } finally {
+      setState = ViewState.idle;
+    }
+  }
+
+  @override
+  Future<MyUser?> signInWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      if (checkEmailAndPassword(email, password)) {
+        setState = ViewState.busy;
+        user = await userRepository.signInWithEmailAndPassword(email, password);
+        return user;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      debugPrint("View Modeldeki Sign In Anonymouslyde Hata: $e");
+      return null;
+    } finally {
+      setState = ViewState.idle;
+    }
+  }
+
+  bool checkEmailAndPassword(String email, String password) {
+    bool check = true;
+    if (password.length < 6) {
+      passwordErrorMesaj = "Password must be at least 6 characters.";
+      check = false;
+    } else {
+      passwordErrorMesaj = "";
+    }
+    if (!email.contains("@")) {
+      emailErrorMesaj = "Please enter a valid email address.";
+      check = false;
+    } else {
+      emailErrorMesaj = "";
+    }
+    return check;
   }
 }

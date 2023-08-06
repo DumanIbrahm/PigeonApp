@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pigeon_app/Widgets/social_button.dart';
+import 'package:pigeon_app/helper/sign_in_with_email.dart';
 import 'package:pigeon_app/viewModels/user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -18,14 +19,14 @@ class SignInPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              const Text(
-                "Sign In",
-                textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
-              ),
-              const SizedBox(
-                height: 8,
-              ),
+              // const Text(
+              //   "Sign In",
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
+              // ),
+              // const SizedBox(
+              //   height: 8,
+              // ),
               SocialLoginButton(
                 buttonText: "Sign In with Google",
                 butonColor: Colors.white,
@@ -37,17 +38,17 @@ class SignInPage extends StatelessWidget {
                 ),
                 onPressed: () => _googleSignIn(context),
               ),
-              SocialLoginButton(
-                buttonText: "Sign In with Facebook",
-                butonColor: Colors.blue,
-                textColor: Colors.white,
-                buttonIcon: Image.asset(
-                  "images/facebook-logo.png",
-                  width: 30,
-                  height: 30,
-                ),
-                onPressed: () {},
-              ),
+              // SocialLoginButton(
+              //   buttonText: "Sign In with Facebook",
+              //   butonColor: Colors.blue,
+              //   textColor: Colors.white,
+              //   buttonIcon: Image.asset(
+              //     "images/facebook-logo.png",
+              //     width: 30,
+              //     height: 30,
+              //   ),
+              //   onPressed: () {},
+              // ),
               SocialLoginButton(
                 buttonText: "Sign In with Email and Password",
                 butonColor: const Color(0xFF334092),
@@ -57,7 +58,7 @@ class SignInPage extends StatelessWidget {
                   color: Colors.white,
                   size: 32,
                 ),
-                onPressed: () {},
+                onPressed: () => _signInWithEmailAndPassword(context),
               ),
               SocialLoginButton(
                 buttonText: "Anonymous Sign In",
@@ -85,5 +86,11 @@ class SignInPage extends StatelessWidget {
   void _googleSignIn(BuildContext context) async {
     final user = Provider.of<UserViewModel>(context, listen: false);
     await user.signInWithGoogle();
+  }
+
+  void _signInWithEmailAndPassword(BuildContext context) async {
+    Navigator.of(context).push(MaterialPageRoute(
+        fullscreenDialog: true,
+        builder: (context) => const SignInWithEmailAndPassword()));
   }
 }
