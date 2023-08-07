@@ -20,8 +20,9 @@ class FirebaseAuthService implements AuthBase {
   MyUser? _userFromFirebase(User? user) {
     if (user == null) {
       return null;
+    } else {
+      return MyUser(uid: user.uid, email: user.email!);
     }
-    return MyUser(uid: user.uid, email: user.email!);
   }
 
   @override
@@ -37,8 +38,8 @@ class FirebaseAuthService implements AuthBase {
   @override
   Future<bool> signOut() async {
     try {
-      final _googleSignIn = GoogleSignIn();
-      await _googleSignIn.signOut();
+      final googleSignIn = GoogleSignIn();
+      await googleSignIn.signOut();
       await _firebaseAuth.signOut();
       return true;
     } catch (e) {
@@ -48,17 +49,17 @@ class FirebaseAuthService implements AuthBase {
 
   @override
   Future<MyUser?> signInWithGoogle() async {
-    GoogleSignIn _googleSignIn = GoogleSignIn();
-    GoogleSignInAccount? _googleUser = await _googleSignIn.signIn();
-    if (_googleUser != null) {
-      GoogleSignInAuthentication _googleAuth = await _googleUser.authentication;
-      if (_googleAuth.idToken != null && _googleAuth.accessToken != null) {
+    GoogleSignIn googleSignIn = GoogleSignIn();
+    GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+    if (googleUser != null) {
+      GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      if (googleAuth.idToken != null && googleAuth.accessToken != null) {
         UserCredential result = await _firebaseAuth.signInWithCredential(
             GoogleAuthProvider.credential(
-                idToken: _googleAuth.idToken,
-                accessToken: _googleAuth.accessToken));
-        User? _user = result.user;
-        return _userFromFirebase(_user);
+                idToken: googleAuth.idToken,
+                accessToken: googleAuth.accessToken));
+        User? user = result.user;
+        return _userFromFirebase(user);
       } else {
         return null;
       }
@@ -68,24 +69,16 @@ class FirebaseAuthService implements AuthBase {
   @override
   Future<MyUser?> createUserWithEmailAndPassword(
       String email, String password) async {
-    try {
-      UserCredential userCredential = await _firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
-      return _userFromFirebase(userCredential.user!);
-    } catch (e) {
-      return null;
-    }
+    UserCredential userCredential = await _firebaseAuth
+        .createUserWithEmailAndPassword(email: email, password: password);
+    return _userFromFirebase(userCredential.user!);
   }
 
   @override
   Future<MyUser?> signInWithEmailAndPassword(
       String email, String password) async {
-    try {
-      UserCredential userCredential = await _firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password);
-      return _userFromFirebase(userCredential.user!);
-    } catch (e) {
-      return null;
-    }
+    UserCredential userCredential = await _firebaseAuth
+        .signInWithEmailAndPassword(email: email, password: password);
+    return _userFromFirebase(userCredential.user!);
   }
 }

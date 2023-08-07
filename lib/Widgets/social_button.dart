@@ -6,7 +6,7 @@ class SocialLoginButton extends StatelessWidget {
   final Color textColor;
   final double radius;
   final double height;
-  final Widget buttonIcon;
+  final Widget? buttonIcon;
   final VoidCallback onPressed;
 
   const SocialLoginButton({
@@ -16,7 +16,7 @@ class SocialLoginButton extends StatelessWidget {
     this.textColor = Colors.white,
     this.radius = 16,
     this.height = 50,
-    required this.buttonIcon,
+    this.buttonIcon = null,
     required this.onPressed,
   }) : super(key: key);
 
@@ -41,7 +41,7 @@ class SocialLoginButton extends StatelessWidget {
             children: [
               //Spreads, Collection-if Collection For
               if (buttonIcon != null) ...[
-                buttonIcon,
+                buttonIcon!,
                 Text(
                   buttonText,
                   textAlign: TextAlign.center,

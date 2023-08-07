@@ -20,7 +20,8 @@ class UserRepository implements AuthBase {
     if (appMode == AppMode.debug) {
       return await fakeAuthenticationService.currentUser();
     } else {
-      return await firebaseAuthService.currentUser();
+      MyUser? user = await firebaseAuthService.currentUser();
+      return await firestoreDbService.readUser(user!.uid);
     }
   }
 
@@ -50,7 +51,7 @@ class UserRepository implements AuthBase {
       MyUser? user = await firebaseAuthService.signInWithGoogle();
       bool result = await firestoreDbService.saveUser(user!);
       if (result) {
-        return user;
+        return await firestoreDbService.readUser(user.uid);
       } else {
         return null;
       }
@@ -68,7 +69,7 @@ class UserRepository implements AuthBase {
           email, password);
       bool result = await firestoreDbService.saveUser(user!);
       if (result) {
-        return user;
+        return await firestoreDbService.readUser(user.uid);
       } else {
         return null;
       }
@@ -82,8 +83,17 @@ class UserRepository implements AuthBase {
       return await fakeAuthenticationService.signInWithEmailAndPassword(
           email, password);
     } else {
-      return await firebaseAuthService.signInWithEmailAndPassword(
-          email, password);
+      MyUser? user =
+          await firebaseAuthService.signInWithEmailAndPassword(email, password);
+      return await firestoreDbService.readUser(user!.uid);
+    }
+  }
+
+  Future<bool> upupdateUserName(String userID, String newUserName) async {
+    if (appMode == AppMode.debug) {
+      return false;
+    } else {
+      return await firestoreDbService.updateUserName(userID, newUserName);
     }
   }
 }

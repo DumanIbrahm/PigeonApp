@@ -24,7 +24,32 @@ class FirestoreDbService implements DBBase {
         await FirebaseFirestore.instance.doc("users/${user.uid}").get();
     Map<String, dynamic> readUserMap = readUser.data() as Map<String, dynamic>;
     MyUser readUserModel = MyUser.fromMap(readUserMap);
-    print("Okunan user nesnesi : " + readUserModel.toString());
     return true;
+  }
+
+  @override
+  Future<MyUser> readUser(String userID) async {
+    DocumentSnapshot readUser =
+        await firebaseAuth.collection("users").doc(userID).get();
+    Map<String, dynamic> readUserMap = readUser.data() as Map<String, dynamic>;
+    MyUser readUserModel = MyUser.fromMap(readUserMap);
+    return readUserModel;
+  }
+
+  @override
+  Future<bool> updateUserName(String userID, String newUserName) async {
+    var users = await firebaseAuth
+        .collection("users")
+        .where("userName", isEqualTo: newUserName)
+        .get();
+    if (users.docs.isNotEmpty) {
+      return false;
+    } else {
+      await firebaseAuth
+          .collection("users")
+          .doc(userID)
+          .update({"userName": newUserName});
+      return true;
+    }
   }
 }

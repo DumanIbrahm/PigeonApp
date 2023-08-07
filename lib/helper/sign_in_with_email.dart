@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pigeon_app/Widgets/social_button.dart';
+import 'package:pigeon_app/helper/alert_dialog_platform_sensitive.dart';
+import 'package:pigeon_app/helper/exception_handler.dart';
 import 'package:pigeon_app/viewModels/user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -95,13 +98,31 @@ class _SignInWithEmailAndPasswordState
     );
   }
 
-  void _formSubmit() {
+  void _formSubmit() async {
     _formKey.currentState!.save();
     final userModel = Provider.of<UserViewModel>(context, listen: false);
+
     if (formType == FormType.logIn) {
-      userModel.signInWithEmailAndPassword(email, password);
+      try {
+        await userModel.signInWithEmailAndPassword(email, password);
+      } on PlatformException catch (e) {
+        AlertDialogPlatformSesitive(
+                title: "Error",
+                content: ExceptionHandler.getErrorMessage(e.code.toString()),
+                defaultActionText: "OK")
+            .show(context);
+      }
     } else {
-      userModel.createUserWithEmailAndPassword(email, password);
+      try {
+        await userModel.createUserWithEmailAndPassword(email, password);
+      } on PlatformException catch (e) {
+        ExceptionHandler.getErrorMessage(e.code.toString());
+        AlertDialogPlatformSesitive(
+                title: "Error",
+                content: ExceptionHandler.getErrorMessage(e.code.toString()),
+                defaultActionText: "OK")
+            .show(context);
+      }
     }
   }
 

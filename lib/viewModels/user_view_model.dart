@@ -3,6 +3,7 @@ import 'package:pigeon_app/locator.dart';
 import 'package:pigeon_app/models/user_model.dart';
 import 'package:pigeon_app/repository/user_repository.dart';
 import 'package:pigeon_app/services/auth_base.dart';
+import 'package:provider/provider.dart';
 
 enum ViewState { idle, busy }
 
@@ -86,39 +87,30 @@ class UserViewModel with ChangeNotifier implements AuthBase {
   @override
   Future<MyUser?> createUserWithEmailAndPassword(
       String email, String password) async {
-    try {
-      if (checkEmailAndPassword(email, password)) {
+    if (checkEmailAndPassword(email, password)) {
+      try {
         setState = ViewState.busy;
         user = await userRepository.createUserWithEmailAndPassword(
             email, password);
-        return user;
-      } else {
-        return null;
+      } finally {
+        setState = ViewState.idle;
       }
-    } catch (e) {
-      debugPrint("View Modeldeki Sign In Anonymouslyde Hata: $e");
+      return user;
+    } else {
       return null;
-    } finally {
-      setState = ViewState.idle;
     }
   }
 
   @override
   Future<MyUser?> signInWithEmailAndPassword(
       String email, String password) async {
-    try {
-      if (checkEmailAndPassword(email, password)) {
-        setState = ViewState.busy;
-        user = await userRepository.signInWithEmailAndPassword(email, password);
-        return user;
-      } else {
-        return null;
-      }
-    } catch (e) {
-      debugPrint("View Modeldeki Sign In Anonymouslyde Hata: $e");
-      return null;
-    } finally {
+    if (checkEmailAndPassword(email, password)) {
+      setState = ViewState.busy;
+      user = await userRepository.signInWithEmailAndPassword(email, password);
       setState = ViewState.idle;
+      return user;
+    } else {
+      return null;
     }
   }
 
@@ -137,5 +129,13 @@ class UserViewModel with ChangeNotifier implements AuthBase {
       emailErrorMesaj = "";
     }
     return check;
+  }
+
+  Future<bool> updateUserName(String userID, String newUserName) async {
+    var result = await userRepository.upupdateUserName(userID, newUserName);
+    if (result) {
+      user!.userName = newUserName;
+    }
+    return result;
   }
 }

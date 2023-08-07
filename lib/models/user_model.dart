@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyUser {
@@ -15,9 +17,10 @@ class MyUser {
     return {
       'uid': uid,
       'email': email,
-      'userName': userName ?? email.substring(0, email.indexOf('@')),
+      'userName':
+          userName ?? email.substring(0, email.indexOf('@')) + randomNumber(),
       'profilUrl': profilUrl ??
-          "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200",
+          "https://t3.ftcdn.net/jpg/03/64/62/36/360_F_364623623_ERzQYfO4HHHyawYkJ16tREsizLyvcaeg.jpg",
       'createdAt': createdAt ?? FieldValue.serverTimestamp(),
       'updatedAt': updatedAt ?? FieldValue.serverTimestamp(),
       'seviye': seviye ?? 1,
@@ -32,4 +35,9 @@ class MyUser {
         createdAt = (map['createdAt'] as Timestamp).toDate(),
         updatedAt = (map['updatedAt'] as Timestamp).toDate(),
         seviye = map['seviye'];
+}
+
+String randomNumber() {
+  int randomSayi = Random().nextInt(999999);
+  return randomSayi.toString();
 }

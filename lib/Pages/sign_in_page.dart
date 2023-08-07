@@ -60,17 +60,17 @@ class SignInPage extends StatelessWidget {
                 ),
                 onPressed: () => _signInWithEmailAndPassword(context),
               ),
-              SocialLoginButton(
-                buttonText: "Anonymous Sign In",
-                butonColor: Colors.teal,
-                textColor: Colors.white,
-                buttonIcon: const Icon(
-                  Icons.supervised_user_circle,
-                  color: Colors.white,
-                  size: 32,
-                ),
-                onPressed: (() => anonymousSignIn(context)),
-              ),
+              // SocialLoginButton(
+              //   buttonText: "Anonymous Sign In",
+              //   butonColor: Colors.teal,
+              //   textColor: Colors.white,
+              //   buttonIcon: const Icon(
+              //     Icons.supervised_user_circle,
+              //     color: Colors.white,
+              //     size: 32,
+              //   ),
+              //   onPressed: (() => anonymousSignIn(context)),
+              // ),
             ],
           ),
         ),
@@ -78,10 +78,10 @@ class SignInPage extends StatelessWidget {
     );
   }
 
-  void anonymousSignIn(BuildContext context) async {
-    final user = Provider.of<UserViewModel>(context, listen: false);
-    await user.signInAnonymously();
-  }
+  // void anonymousSignIn(BuildContext context) async {
+  //   final user = Provider.of<UserViewModel>(context, listen: false);
+  //   await user.signInAnonymously();
+  // }
 
   void _googleSignIn(BuildContext context) async {
     final user = Provider.of<UserViewModel>(context, listen: false);
