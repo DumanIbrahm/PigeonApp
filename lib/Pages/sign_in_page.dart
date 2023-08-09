@@ -11,7 +11,7 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey.shade200,
+        backgroundColor: Colors.white,
         body: Container(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -27,6 +27,12 @@ class SignInPage extends StatelessWidget {
               // const SizedBox(
               //   height: 8,
               // ),
+              const Image(
+                width: 200,
+                height: 200,
+                image: NetworkImage(
+                    "https://cdn.shopify.com/s/files/1/0231/9450/1197/files/Morning-Bird-Animated-Bird-4.15.20-White.gif?v=1586988077"),
+              ),
               SocialLoginButton(
                 buttonText: "Sign In with Google",
                 butonColor: Colors.white,

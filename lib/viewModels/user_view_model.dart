@@ -1,9 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:pigeon_app/locator.dart';
+import 'package:pigeon_app/models/message_model.dart';
 import 'package:pigeon_app/models/user_model.dart';
 import 'package:pigeon_app/repository/user_repository.dart';
 import 'package:pigeon_app/services/auth_base.dart';
-import 'package:provider/provider.dart';
 
 enum ViewState { idle, busy }
 
@@ -132,10 +134,29 @@ class UserViewModel with ChangeNotifier implements AuthBase {
   }
 
   Future<bool> updateUserName(String userID, String newUserName) async {
-    var result = await userRepository.upupdateUserName(userID, newUserName);
+    var result = await userRepository.updateUserName(userID, newUserName);
     if (result) {
       user!.userName = newUserName;
     }
     return result;
+  }
+
+  Future<String> uploadFile(String uid, String fileType, File file) async {
+    var result = await userRepository.updateFile(uid, fileType, file);
+    return result;
+  }
+
+  Future<List<MyUser>> getAllUsers() async {
+    var allUsers = await userRepository.getAllUsers();
+    return allUsers!;
+  }
+
+  Stream<List<MessageModel>>? getMessages(
+      String currentUserID, String chatUserID) {
+    return userRepository.getMessages(currentUserID, chatUserID);
+  }
+
+  Future<bool>? saveMessage(MessageModel messageModel) async {
+    return userRepository.saveMessage(messageModel);
   }
 }
