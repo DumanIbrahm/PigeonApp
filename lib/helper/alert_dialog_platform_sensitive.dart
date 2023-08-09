@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pigeon_app/helper/platform_sensitive.dart';
+import 'package:pigeon_app/palette.dart';
 
 class AlertDialogPlatformSesitive extends PlatformSensitiveWidget {
   final String title;
@@ -20,16 +21,20 @@ class AlertDialogPlatformSesitive extends PlatformSensitiveWidget {
   @override
   Widget buildAndroidWidget(BuildContext context) {
     return AlertDialog(
-      title: Text(title),
-      content: Text(content),
-      actions: dialogButton(context),
-    );
+        title: Text(title),
+        content: Text(content),
+        actions: dialogButton(context),
+        shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20.0))));
   }
 
   @override
   Widget buildIOSWidget(BuildContext context) {
     return CupertinoAlertDialog(
-      title: Text(title),
+      title: Text(
+        title,
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
       content: Text(content),
       actions: dialogButton(context),
     );
@@ -42,23 +47,29 @@ class AlertDialogPlatformSesitive extends PlatformSensitiveWidget {
       if (cancelActionText != null) {
         list.add(CupertinoDialogAction(
           onPressed: () => Navigator.of(context).pop(false),
-          child: Text(cancelActionText!),
+          child: Text(
+            cancelActionText!,
+            style: TextStyle(color: Pallete.buttonColor),
+          ),
         ));
       }
       list.add(CupertinoDialogAction(
         onPressed: () => Navigator.of(context).pop(true),
-        child: Text(defaultActionText),
+        child: Text(defaultActionText,
+            style: TextStyle(color: Pallete.buttonColor)),
       ));
     } else {
       if (cancelActionText != null) {
         list.add(TextButton(
           onPressed: () => Navigator.of(context).pop(false),
-          child: Text(cancelActionText!),
+          child: Text(cancelActionText!,
+              style: TextStyle(color: Pallete.buttonColor)),
         ));
       }
       list.add(TextButton(
         onPressed: () => Navigator.of(context).pop(true),
-        child: Text(defaultActionText),
+        child: Text(defaultActionText,
+            style: TextStyle(color: Pallete.buttonColor)),
       ));
     }
     return list;

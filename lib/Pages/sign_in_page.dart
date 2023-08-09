@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pigeon_app/Widgets/social_button.dart';
 import 'package:pigeon_app/helper/sign_in_with_email.dart';
+import 'package:pigeon_app/palette.dart';
 import 'package:pigeon_app/viewModels/user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +12,7 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Pallete.backgroundColor,
         body: Container(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -19,14 +20,6 @@ class SignInPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              // const Text(
-              //   "Sign In",
-              //   textAlign: TextAlign.center,
-              //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 32),
-              // ),
-              // const SizedBox(
-              //   height: 8,
-              // ),
               const Image(
                 width: 200,
                 height: 200,

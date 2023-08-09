@@ -1,8 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:pigeon_app/models/message_model.dart';
 import 'package:pigeon_app/models/user_model.dart';
+import 'package:pigeon_app/palette.dart';
 import 'package:pigeon_app/viewModels/user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +22,9 @@ class _MessagePageState extends State<MessagePage> {
     MyUser currentUser = widget.currentUser!;
     MyUser chatUser = widget.chatUser!;
     return Scaffold(
+      backgroundColor: Pallete.backgroundColor,
       appBar: AppBar(
+        backgroundColor: Pallete.appBarColor,
         title: const Text("Messages"),
       ),
       body: Center(
@@ -42,7 +43,6 @@ class _MessagePageState extends State<MessagePage> {
                   return ListView.builder(
                     itemCount: list.length,
                     itemBuilder: (context, index) {
-                      print(list[index].message!);
                       return chats(list[index]);
                     },
                   );
@@ -68,7 +68,7 @@ class _MessagePageState extends State<MessagePage> {
                   Container(
                       margin: const EdgeInsets.symmetric(horizontal: 4),
                       child: FloatingActionButton(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Pallete.appBarColor,
                         onPressed: () async {
                           if (controllerText.text.trim().length > 0) {
                             MessageModel messageModel = MessageModel(
@@ -106,14 +106,14 @@ class _MessagePageState extends State<MessagePage> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
           Container(
             padding: const EdgeInsets.all(10),
-            margin: EdgeInsets.all(4),
+            margin: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16),
               color: _color,
             ),
             child: Text(
               currentMessage.message!,
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
             ),
           )
         ]),
@@ -130,13 +130,13 @@ class _MessagePageState extends State<MessagePage> {
                 ),
                 Container(
                   padding: const EdgeInsets.all(10),
-                  margin: EdgeInsets.all(4),
+                  margin: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     color: _color,
                   ),
                   child: Text(currentMessage.message!,
-                      style: TextStyle(color: Colors.white)),
+                      style: const TextStyle(color: Colors.white)),
                 )
               ],
             )

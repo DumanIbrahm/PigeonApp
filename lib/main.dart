@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pigeon_app/Pages/landing_page.dart';
 import 'package:pigeon_app/locator.dart';
+import 'package:pigeon_app/palette.dart';
 import 'package:pigeon_app/viewModels/user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           title: 'Pigeon App',
           theme: ThemeData(
-            primarySwatch: Colors.blue,
+            primaryColor: Pallete.appBarColor,
           ),
           debugShowCheckedModeBanner: false,
           home: const LandingPage()),

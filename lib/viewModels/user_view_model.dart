@@ -99,6 +99,7 @@ class UserViewModel with ChangeNotifier implements AuthBase {
       }
       return user;
     } else {
+      passwordErrorMesaj = "Email or password is incorrect.";
       return null;
     }
   }

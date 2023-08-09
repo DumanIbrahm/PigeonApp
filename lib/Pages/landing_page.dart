@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pigeon_app/Pages/home_page.dart';
 import 'package:pigeon_app/Pages/sign_in_page.dart';
+import 'package:pigeon_app/palette.dart';
 import 'package:pigeon_app/viewModels/user_view_model.dart';
 import 'package:provider/provider.dart';
 

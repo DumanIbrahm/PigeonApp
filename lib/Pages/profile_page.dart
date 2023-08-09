@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:pigeon_app/Widgets/social_button.dart';
 import 'package:pigeon_app/helper/alert_dialog_platform_sensitive.dart';
+import 'package:pigeon_app/palette.dart';
 import 'package:pigeon_app/viewModels/user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +36,9 @@ class _ProfilePageState extends State<ProfilePage> {
     _userNameController.text = userViewModel.getUser!.userName!;
 
     return Scaffold(
+        backgroundColor: Pallete.backgroundColor,
         appBar: AppBar(
+          backgroundColor: Pallete.appBarColor,
           title: const Text("Profile"),
           actions: [
             IconButton(

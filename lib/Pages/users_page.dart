@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pigeon_app/Pages/message_page.dart';
 import 'package:pigeon_app/models/user_model.dart';
+import 'package:pigeon_app/palette.dart';
 import 'package:pigeon_app/viewModels/user_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +13,9 @@ class UsersPage extends StatelessWidget {
     UserViewModel userModel = Provider.of<UserViewModel>(context);
     userModel.getAllUsers;
     return Scaffold(
+        backgroundColor: Pallete.backgroundColor,
         appBar: AppBar(
+          backgroundColor: Pallete.appBarColor,
           title: const Text("Users"),
         ),
         body: FutureBuilder<List<MyUser>>(
@@ -39,8 +42,14 @@ class UsersPage extends StatelessWidget {
                               leading: CircleAvatar(
                                   backgroundImage:
                                       NetworkImage(currentUser.profilUrl!)),
-                              title: Text(currentUser.userName!),
-                              subtitle: Text(currentUser.email),
+                              title: Text(currentUser.userName!,
+                                  style: TextStyle(
+                                      color: Pallete.textColor,
+                                      fontWeight: FontWeight.bold)),
+                              subtitle: Text(currentUser.email,
+                                  style: TextStyle(
+                                      color: Pallete.buttonColor,
+                                      fontWeight: FontWeight.bold)),
                             ),
                           );
                         } else {
